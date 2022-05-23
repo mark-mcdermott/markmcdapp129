@@ -14,15 +14,10 @@ window.$ = jquery
 $('#someDiv').css('border','1px solid red')
 
 const url = '/scores/api';
-
-$.ajax({
-	url: url,
-	type: "POST",
-	beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-	data: {
-	score: {
-		"val": 1015, 
-	}
-},
-	success: function(resp){ json: 'SUCCESS WOO' }
-});
+var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+var xhr = new XMLHttpRequest();
+xhr.open('POST', url);
+xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+xhr.onload = function () { console.log('SUCCESS WOO'); };
+xhr.send(JSON.stringify({ score: { "val": 1017 }}));
